@@ -16,8 +16,11 @@ public class CombinedVolumeMixer extends Application {
 
     private WebView youTubeWebView; // YouTube WebView
     private WebView soundCloudWebView; // SoundCloud WebView
+    private WebView vimeoWebView; // Vimeo WebView
+
     private WebEngine youTubeWebEngine; // YouTube WebEngine
     private WebEngine soundCloudWebEngine; // SoundCloud WebEngine
+    private WebEngine vimeoWebEngine; // Vimeo WebEngine
 
     @Override
     public void start(Stage primaryStage) {
@@ -28,7 +31,7 @@ public class CombinedVolumeMixer extends Application {
         root.setAlignment(Pos.CENTER);
 
         // Title for the application
-        Label title = new Label("YouTube and SoundCloud Volume Mixer");
+        Label title = new Label("YouTube, SoundCloud, and Vimeo Volume Mixer");
         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
 
         // Horizontal layout for players
@@ -41,24 +44,22 @@ public class CombinedVolumeMixer extends Application {
         // SoundCloud Mixer
         VBox soundCloudMixer = createSoundCloudMixer();
 
+        // Vimeo Mixer
+        VBox vimeoMixer = createVimeoMixer();
+
         // Add players to the horizontal layout
-        playersBox.getChildren().addAll(youTubeMixer, soundCloudMixer);
+        playersBox.getChildren().addAll(youTubeMixer, soundCloudMixer, vimeoMixer);
 
         // Add components to the main layout
         root.getChildren().addAll(title, playersBox);
 
         // Set up and display the application window
-        Scene scene = new Scene(root, 1000, 600);
-        primaryStage.setTitle("YouTube and SoundCloud Volume Mixer");
+        Scene scene = new Scene(root, 1200, 600);
+        primaryStage.setTitle("YouTube, SoundCloud, and Vimeo Volume Mixer");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    /**
-     * Creates the YouTube mixer layout.
-     *
-     * @return VBox containing YouTube mixer components
-     */
     private VBox createYouTubeMixer() {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
@@ -69,16 +70,16 @@ public class CombinedVolumeMixer extends Application {
         youTubeWebView = new WebView();
         youTubeWebEngine = youTubeWebView.getEngine();
 
-        // YouTube Embed HTML
-        String videoId = "AOkR3FEOUPE"; // Replace with your YouTube video ID
-        String playlistId = "RDAOkR3FEOUPE"; // Replace with your YouTube playlist ID
-        String embedHTML = "<html><body style='margin:0;padding:0;overflow:hidden;'>"
-                + "<iframe id='player' width='400' height='250' "
-                + "src='https://www.youtube.com/embed/" + videoId
-                + "?enablejsapi=1&list=" + playlistId + "&start_radio=1' "
-                + "frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' "
-                + "allowfullscreen></iframe>"
-                + "</body></html>";
+        String videoId = "AOkR3FEOUPE";
+        String playlistId = "RDAOkR3FEOUPE";
+        String embedHTML = "<html><body style='margin:0;padding:0;overflow:hidden;'>" +
+                "<iframe id='player' width='400' height='250' " +
+                "src='https://www.youtube.com/embed/" + videoId +
+                "?enablejsapi=1&list=" + playlistId + "&start_radio=1' " +
+                "frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' "
+                +
+                "allowfullscreen></iframe>" +
+                "</body></html>";
         youTubeWebEngine.loadContent(embedHTML);
 
         VBox youtubeSliderBox = createVerticalSlider("YouTube Volume", youTubeWebEngine, true);
@@ -87,11 +88,6 @@ public class CombinedVolumeMixer extends Application {
         return root;
     }
 
-    /**
-     * Creates the SoundCloud mixer layout.
-     *
-     * @return VBox containing SoundCloud mixer components
-     */
     private VBox createSoundCloudMixer() {
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
@@ -102,18 +98,18 @@ public class CombinedVolumeMixer extends Application {
         soundCloudWebView = new WebView();
         soundCloudWebEngine = soundCloudWebView.getEngine();
 
-        // SoundCloud Embed HTML with Widget API integration
-        String embedHTML = "<html><body style='margin:0;padding:0;'>"
-                + "<iframe id='sc-player' width='400' height='250' "
-                + "scrolling='no' frameborder='no' "
-                + "src='https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kylie-minogue-official/cant-get-you-out-of-my-head&color=%23ff5500&auto_play=false'>"
-                + "</iframe>"
-                + "<script src='https://w.soundcloud.com/player/api.js'></script>"
-                + "<script>"
-                + "var widgetIframe = document.getElementById('sc-player');"
-                + "var widget = SC.Widget(widgetIframe);"
-                + "window.setVolume = function(volume) { widget.setVolume(volume); };"
-                + "</script></body></html>";
+        String embedHTML = "<html><body style='margin:0;padding:0;'>" +
+                "<iframe id='sc-player' width='400' height='250' " +
+                "scrolling='no' frameborder='no' " +
+                "src='https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/kylie-minogue-official/cant-get-you-out-of-my-head&color=%23ff5500&auto_play=false'>"
+                +
+                "</iframe>" +
+                "<script src='https://w.soundcloud.com/player/api.js'></script>" +
+                "<script>" +
+                "var widgetIframe = document.getElementById('sc-player');" +
+                "var widget = SC.Widget(widgetIframe);" +
+                "window.setVolume = function(volume) { widget.setVolume(volume); };" +
+                "</script></body></html>";
         soundCloudWebEngine.loadContent(embedHTML);
 
         VBox soundCloudSliderBox = createVerticalSlider("SoundCloud Volume", soundCloudWebEngine, false);
@@ -122,14 +118,35 @@ public class CombinedVolumeMixer extends Application {
         return root;
     }
 
-    /**
-     * Creates a vertical slider for volume control.
-     *
-     * @param labelText Label text for the slider
-     * @param webEngine WebEngine for JavaScript execution
-     * @param isYouTube Whether the slider is for YouTube
-     * @return VBox containing the vertical slider
-     */
+    private VBox createVimeoMixer() {
+        VBox root = new VBox(10);
+        root.setAlignment(Pos.CENTER);
+
+        Label title = new Label("Vimeo");
+        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        vimeoWebView = new WebView();
+        vimeoWebEngine = vimeoWebView.getEngine();
+
+        String videoId = "76979871"; // Replace with your Vimeo video ID
+        String embedHTML = "<html><body style='margin:0;padding:0;'>" +
+                "<iframe id='vimeo-player' width='400' height='250' " +
+                "src='https://player.vimeo.com/video/" + videoId + "?title=0&byline=0&portrait=0' " +
+                "frameborder='0' allow='autoplay; fullscreen; picture-in-picture' allowfullscreen></iframe>" +
+                "<script src='https://player.vimeo.com/api/player.js'></script>" +
+                "<script>" +
+                "var iframe = document.getElementById('vimeo-player');" +
+                "var player = new Vimeo.Player(iframe);" +
+                "window.setVolume = function(volume) { player.setVolume(volume / 100); };" +
+                "</script></body></html>";
+        vimeoWebEngine.loadContent(embedHTML);
+
+        VBox vimeoSliderBox = createVerticalSlider("Vimeo Volume", vimeoWebEngine, false);
+
+        root.getChildren().addAll(title, vimeoWebView, vimeoSliderBox);
+        return root;
+    }
+
     private VBox createVerticalSlider(String labelText, WebEngine webEngine, boolean isYouTube) {
         VBox sliderBox = new VBox(10);
         sliderBox.setAlignment(Pos.CENTER);
@@ -137,14 +154,13 @@ public class CombinedVolumeMixer extends Application {
         Label label = new Label(labelText);
         label.setStyle("-fx-font-size: 14px;");
 
-        Slider slider = new Slider(0, 100, 50); // Range: 0-100, default: 50
-        slider.setOrientation(javafx.geometry.Orientation.VERTICAL); // Vertical slider
+        Slider slider = new Slider(0, 100, 50);
+        slider.setOrientation(javafx.geometry.Orientation.VERTICAL);
         slider.setShowTickMarks(true);
         slider.setShowTickLabels(true);
         slider.setMajorTickUnit(25);
         slider.setBlockIncrement(10);
 
-        // Listener to control volume
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double volume = newValue.doubleValue();
             if (isYouTube) {
@@ -159,12 +175,6 @@ public class CombinedVolumeMixer extends Application {
         return sliderBox;
     }
 
-    /**
-     * Executes JavaScript code in the specified WebEngine.
-     *
-     * @param webEngine WebEngine instance
-     * @param script    JavaScript code
-     */
     private void executeJavaScript(WebEngine webEngine, String script) {
         webEngine.executeScript(script);
     }
