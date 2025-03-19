@@ -11,35 +11,44 @@ public class CombinedVolumeMixer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        VBox root = new VBox(20);
-        root.setPadding(new Insets(20));
-        root.setStyle("-fx-background-color: pink;");
-        root.setAlignment(Pos.CENTER);
+        // Main vertical container for the application
+        VBox root = new VBox(20); // Add spacing between elements
+        root.setPadding(new Insets(20)); // Add padding around the edges
+        root.setStyle("-fx-background-color: pink;"); // Set background color
+        root.setAlignment(Pos.CENTER); // Center all elements in the VBox
 
+        // Title label for the application
         Label title = new Label("YouTube, SoundCloud, and Vimeo Volume Mixer");
-        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;"); // Set font size and style
 
-        HBox playersBox = new HBox(30);
-        playersBox.setAlignment(Pos.CENTER);
+        // Horizontal container for the media players
+        HBox playersBox = new HBox(30); // Add spacing between players
+        playersBox.setAlignment(Pos.CENTER); // Center the players horizontally
 
-        YouTubeMixer youTubeMixer = new YouTubeMixer();
-        SoundCloudMixer soundCloudMixer = new SoundCloudMixer();
-        VimeoMixer vimeoMixer = new VimeoMixer();
+        // Create instances of the individual mixers
+        YouTubeMixer youTubeMixer = new YouTubeMixer(); // YouTube player
+        SoundCloudMixer soundCloudMixer = new SoundCloudMixer(); // SoundCloud player
+        VimeoMixer vimeoMixer = new VimeoMixer(); // Vimeo player
 
+        // Add the individual mixers to the horizontal container
         playersBox.getChildren().addAll(
-                youTubeMixer.createYouTubeMixer(),
-                soundCloudMixer.createSoundCloudMixer(),
-                vimeoMixer.createVimeoMixer());
+                soundCloudMixer.createSoundCloudMixer(), // Add SoundCloud mixer
+                youTubeMixer.createYouTubeMixer(), // Add YouTube mixer
+                vimeoMixer.createVimeoMixer() // Add Vimeo mixer
+        );
 
+        // Add the title and players container to the main container
         root.getChildren().addAll(title, playersBox);
 
-        Scene scene = new Scene(root, 1200, 600);
-        primaryStage.setTitle("YouTube, SoundCloud, and Vimeo Volume Mixer");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        // Create the scene and set it on the primary stage
+        Scene scene = new Scene(root, 1200, 600); // Set the scene size
+        primaryStage.setTitle("Volume Vista"); // Set the window title
+        primaryStage.setScene(scene); // Attach the scene to the stage
+        primaryStage.show(); // Show the stage
     }
 
     public static void main(String[] args) {
+        // Launch the JavaFX application
         launch(args);
     }
 }
