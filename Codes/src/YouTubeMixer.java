@@ -52,6 +52,13 @@ public class YouTubeMixer {
             "  function loadVideo(videoId) {" +
             "    player.loadVideoById(videoId);" + // Load a video by its ID
             "  }" +
+            "  function togglePlayPause() {" +
+            "    if (player.getPlayerState() === 1) {" + // If the player is playing
+            "      player.pauseVideo();" + // Pause the video
+            "    } else {" +
+            "      player.playVideo();" + // Play the video
+            "    }" +
+            "  }" +
             "  function setVolume(volume) {" +
             "    if (player) player.setVolume(volume);" + // Set the player's volume
             "  }" +
@@ -76,6 +83,12 @@ public class YouTubeMixer {
             }
         });
 
+        // Button to toggle play/pause
+        Button playPauseButton = new Button("Play/Pause");
+        playPauseButton.setOnAction(e -> {
+            youTubeWebEngine.executeScript("togglePlayPause();"); // Call the JavaScript function to toggle play/pause
+        });
+
         // Horizontal volume slider to control the player's volume
         Slider volumeSlider = new Slider(0, 100, 50); // Volume sliders min and max volumes
         volumeSlider.setShowTickLabels(true); // Show tick labels on the slider
@@ -84,8 +97,8 @@ public class YouTubeMixer {
             youTubeWebEngine.executeScript("setVolume(" + newVal.intValue() + ");"); // Update the player's volume
         });
 
-        // Horizontal box for the URL input field and the load button
-        HBox controlsBox = new HBox(10, urlInput, loadVideoButton); // Add spacing between elements
+        // Horizontal box for the URL input field, load button, and play/pause button
+        HBox controlsBox = new HBox(10, urlInput, loadVideoButton, playPauseButton); // Add spacing between elements
         controlsBox.setAlignment(Pos.CENTER); // Center it horizontally
 
         // Vertical box for the volume slider and its label
