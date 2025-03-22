@@ -27,44 +27,44 @@ public class YouTubeMixer {
 
         // Load the YouTube player HTML into the WebView
         youTubeWebEngine.loadContent(
-            "<html>" +
-            "<body style='margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100%;'>" +
-            "<div id='player'></div>" + // Placeholder for player
-            "<script>" +
-            "var tag = document.createElement('script');" + // Load the YouTube IFrame API
-            "tag.src = 'https://www.youtube.com/iframe_api';" +
-            "var firstScriptTag = document.getElementsByTagName('script')[0];" +
-            "firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);" +
-            "var player;" +
-            "function onYouTubeIframeAPIReady() {" + // Initialize the YouTube player
-            "player = new YT.Player('player', {" +
-            "height: '390'," + // Player height
-            "width: '640'," + // Player width
-            "videoId: ''," + // Initially no video is loaded
-            "events: {" +
-            " 'onReady': onPlayerReady" + // Triggers an event when the player is ready
-            "       }" +
-            "    });" +
-            "  }" +
-            "  function onPlayerReady(event) {" +
-            "    console.log('Player is ready');" + // Log when the player is ready
-            "  }" +
-            "  function loadVideo(videoId) {" +
-            "    player.loadVideoById(videoId);" + // Load a video by its ID
-            "  }" +
-            "  function togglePlayPause() {" +
-            "    if (player.getPlayerState() === 1) {" + // If the player is playing
-            "      player.pauseVideo();" + // Pause the video
-            "    } else {" +
-            "      player.playVideo();" + // Play the video
-            "    }" +
-            "  }" +
-            "  function setVolume(volume) {" +
-            "    if (player) player.setVolume(volume);" + // Set the player's volume
-            "  }" +
-            "</script>" +
-            "</body>" +
-            "</html>"
+                "<html>" +
+                        "<body style='margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100%;'>" +
+                        "<div id='player'></div>" + // Placeholder for player
+                        "<script>" +
+                        "var tag = document.createElement('script');" + // Load the YouTube IFrame API
+                        "tag.src = 'https://www.youtube.com/iframe_api';" +
+                        "var firstScriptTag = document.getElementsByTagName('script')[0];" +
+                        "firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);" +
+                        "var player;" +
+                        "function onYouTubeIframeAPIReady() {" + // Initialize the YouTube player
+                        "player = new YT.Player('player', {" +
+                        "height: '390'," + // Player height
+                        "width: '640'," + // Player width
+                        "videoId: ''," + // Initially no video is loaded
+                        "events: {" +
+                        " 'onReady': onPlayerReady" + // Triggers an event when the player is ready
+                        "       }" +
+                        "    });" +
+                        "  }" +
+                        "  function onPlayerReady(event) {" +
+                        "    console.log('Player is ready');" + // Log when the player is ready
+                        "  }" +
+                        "  function loadVideo(videoId) {" +
+                        "    player.loadVideoById(videoId);" + // Load a video by its ID
+                        "  }" +
+                        "  function togglePlayPause() {" +
+                        "    if (player.getPlayerState() === 1) {" + // If the player is playing
+                        "      player.pauseVideo();" + // Pause the video
+                        "    } else {" +
+                        "      player.playVideo();" + // Play the video
+                        "    }" +
+                        "  }" +
+                        "  function setVolume(volume) {" +
+                        "    if (player) player.setVolume(volume);" + // Set the player's volume
+                        "  }" +
+                        "</script>" +
+                        "</body>" +
+                        "</html>"
         );
 
         // Input field for pasting in a YouTube URL
@@ -79,7 +79,8 @@ public class YouTubeMixer {
             if (videoId != null) {
                 youTubeWebEngine.executeScript("loadVideo('" + videoId + "');"); // Load the video in the player
             } else {
-                System.out.println("Invalid YouTube URL"); // Print an error if the URL is invalid
+                // Handle invalid YouTube URL by showing an error message
+                System.out.println("Invalid YouTube URL");
             }
         });
 

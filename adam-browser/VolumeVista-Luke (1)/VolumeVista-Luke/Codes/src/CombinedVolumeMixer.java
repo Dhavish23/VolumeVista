@@ -18,7 +18,7 @@ public class CombinedVolumeMixer extends Application {
         root.setAlignment(Pos.CENTER); // Center all elements in the VBox
 
         // Title label for the application
-        Label title = new Label("YouTube, SoundCloud, and Vimeo Volume Mixer");
+        Label title = new Label("YouTube, SoundCloud, and Browser Volume Mixer");
         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;"); // Set font size and style
 
         // Horizontal container for the media players
@@ -28,13 +28,13 @@ public class CombinedVolumeMixer extends Application {
         // Create instances of the individual mixers
         YouTubeMixer youTubeMixer = new YouTubeMixer(); // YouTube player
         SoundCloudMixer soundCloudMixer = new SoundCloudMixer(); // SoundCloud player
-        VimeoMixer vimeoMixer = new VimeoMixer(); // Vimeo player
+        VimeoMixer vimeoMixer = new VimeoMixer(); // Browser player
 
         // Add the individual mixers to the horizontal container
         playersBox.getChildren().addAll(
                 soundCloudMixer.createSoundCloudMixer(), // Add SoundCloud mixer
                 youTubeMixer.createYouTubeMixer(), // Add YouTube mixer
-                vimeoMixer.createVimeoMixer() // Add Vimeo mixer
+                vimeoMixer.createVimeoMixer() // Add Browser mixer
         );
 
         // Add the title and players container to the main container

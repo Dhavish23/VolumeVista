@@ -1,49 +1,69 @@
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.engine.RenderingMode;
+import com.teamdev.jxbrowser.view.javafx.BrowserView;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 public class VimeoMixer {
-    private WebView vimeoWebView; // WebView to display the Vimeo player
-    private WebEngine vimeoWebEngine; // WebEngine to control the WebView content
+
+    private Browser browser;
 
     public VBox createVimeoMixer() {
-        // Main container for the Vimeo mixer
-        VBox root = new VBox(10); // Add spacing between elements
-        root.setAlignment(Pos.CENTER); // Centers all elements 
+        // Initialize JxBrowser Engine with a valid license key
+        Engine engine = Engine.newInstance(
+                EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED)
+                        .licenseKey("OK6AEKNYF37GRFRN5NXJ7E036DQYVLMYXV6YMUYXDHTA6B8QDT7STA65INM69D0N7E9FP3V8R4ZWI47KV3CB4TL5L6NK5IMWS7J0WU4NZGG0GVYJ1K3MH3BE7VTU3OFB822AB30WSQ17BH4QC")
+                        .build());
 
-        // Title for the Vimeo mixer
-        Label title = new Label("Vimeo");
-        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;"); // Set font size and style
+        // Create a browser instance
+        browser = engine.newBrowser();
+        BrowserView browserView = BrowserView.newInstance(browser);
 
-        // Initialize the WebView and WebEngine
-        vimeoWebView = new WebView();
-        vimeoWebEngine = vimeoWebView.getEngine();
+        // Main vertical container for the application
+        VBox root = new VBox(20); // Add spacing between elements
+        root.setPadding(new Insets(20)); // Add padding around the edges
+        root.setStyle("-fx-background-color: pink;"); // Set background color
+        root.setAlignment(Pos.CENTER); // Center all elements in the VBox
 
-        // Vimeo video ID to embed
-        String videoId = "76979871"; // Replace with the desired Vimeo video ID
+        // Title label for the application
+        Label title = new Label("Browser Player");
+        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;"); // Set font size and style
 
-        // Embed Vimeo player using HTML
-        String embedHTML = "<html><body style='margin:0;padding:0;'>" +
-                "<iframe id='vimeo-player' width='400' height='250' " + // Embed Vimeo player iframe
-                "src='https://player.vimeo.com/video/" + videoId + "?title=0&byline=0&portrait=0' " + // Vimeo video URL
-                "frameborder='0' allowfullscreen></iframe>" +
-                "<script src='https://player.vimeo.com/api/player.js'></script>" + // Load Vimeo Player API
-                "<script>" +
-                "var iframe = document.getElementById('vimeo-player');" + // Get the iframe element
-                "var player = new Vimeo.Player(iframe);" + // Initialize the Vimeo player
-                "window.setVolume = function(volume) { player.setVolume(volume / 100); };" + // Define a function to set the volume
-                "</script></body></html>";
-        vimeoWebEngine.loadContent(embedHTML); // Load the HTML content into the WebView
+        // Volume Slider for controlling browser volume
+        Slider volumeSlider = new Slider(0, 100, 50);
+        volumeSlider.setShowTickLabels(true);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            // Execute JavaScript to adjust the volume of the browser content
+            browser.mainFrame().ifPresent(frame -> {
+                String js = "document.querySelector('audio') ? document.querySelector('audio').volume = " + newVal.doubleValue() / 100;
+                frame.executeJavaScript(js);
+            });
+        });
 
-        // Create a vertical slider for controlling the Vimeo player's volume
-        VBox vimeoSliderBox = VolumeSlider.createHorizontalSlider("Vimeo Volume", vimeoWebEngine, false);
+        // Create a control box with the volume slider
+        VBox controls = new VBox(10, new Label("Volume Control"), volumeSlider);
+        controls.setAlignment(Pos.CENTER);
 
-        // Add the title, player, and volume slider to the main container
-        root.getChildren().addAll(title, vimeoWebView, vimeoSliderBox);
+        // Create the overall layout (HBox to put the browser and controls side by side)
+        HBox layout = new HBox(20, browserView, controls);
+        layout.setAlignment(Pos.CENTER);
+        browserView.setPrefSize(600, 400); // Explicitly set the size of the browser view
 
-        // Return the main container
+        // Add the title and players container to the main container
+        root.getChildren().addAll(title, layout);
+
+        // Load a URL in the browser (example: Google)
+        browser.navigation().loadUrl("https://www.google.com");
+
         return root;
     }
 }
