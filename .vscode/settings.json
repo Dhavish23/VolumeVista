@@ -8,6 +8,16 @@
         "c:\\Program Files\\Java\\javafx-sdk-23.0.2\\lib\\javafx.media.jar",
         "c:\\Program Files\\Java\\javafx-sdk-23.0.2\\lib\\javafx.swing.jar",
         "c:\\Program Files\\Java\\javafx-sdk-23.0.2\\lib\\javafx.web.jar",
-        "c:\\Program Files\\Java\\javafx-sdk-23.0.2\\lib\\javafx-swt.jar"
+        "c:\\Program Files\\Java\\javafx-sdk-23.0.2\\lib\\javafx-swt.jar",
+        "Codes/lib/javafx.base.jar",
+        "Codes/lib/javafx.controls.jar",
+        "Codes/lib/javafx.fxml.jar",
+        "Codes/lib/javafx.graphics.jar",
+        "Codes/lib/javafx.media.jar",
+        "Codes/lib/javafx.swing.jar",
+        "Codes/lib/javafx.web.jar",
+        "Codes/lib/javafx-swt.jar",
+        "Codes/lib/jna-jpms-5.17.0.jar",
+        "Codes/lib/jna-platform-jpms-5.17.0.jar"
     ]
 }

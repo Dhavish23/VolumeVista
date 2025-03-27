@@ -7,10 +7,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class CombinedVolumeMixer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+            System.out.println("Module Path: " + System.getProperty("jdk.module.path"));
+            launch(args);
+        
+        
+
         // Main vertical container for the application
         VBox root = new VBox(20); // Add spacing between elements
         root.setPadding(new Insets(20)); // Add padding around the edges
@@ -18,7 +25,7 @@ public class CombinedVolumeMixer extends Application {
         root.setAlignment(Pos.CENTER); // Center all elements in the VBox
 
         // Title label for the application
-        Label title = new Label("YouTube, SoundCloud, and Vimeo Volume Mixer");
+        Label title = new Label("YouTube, SoundCloud, Vimeo, and System Audio Mixer");
         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;"); // Set font size and style
 
         // Horizontal container for the media players
@@ -29,20 +36,22 @@ public class CombinedVolumeMixer extends Application {
         YouTubeMixer youTubeMixer = new YouTubeMixer(); // YouTube player
         SoundCloudMixer soundCloudMixer = new SoundCloudMixer(); // SoundCloud player
         VimeoMixer vimeoMixer = new VimeoMixer(); // Vimeo player
+        WindowsAudioMixer windowsAudioMixer = new WindowsAudioMixer(); // System audio mixer
 
         // Add the individual mixers to the horizontal container
         playersBox.getChildren().addAll(
                 soundCloudMixer.createSoundCloudMixer(), // Add SoundCloud mixer
                 youTubeMixer.createYouTubeMixer(), // Add YouTube mixer
-                vimeoMixer.createVimeoMixer() // Add Vimeo mixer
+                vimeoMixer.createVimeoMixer(), // Add Vimeo mixer
+                windowsAudioMixer.createWindowsAudioMixer() // Add system audio mixer
         );
 
-        // Add the title and players container to the main container
+        // Add the title and players container to the root container
         root.getChildren().addAll(title, playersBox);
 
         // Create the scene and set it on the primary stage
         Scene scene = new Scene(root, 1200, 600); // Set the scene size
-        primaryStage.setTitle("Volume Vista"); // Set the window title
+        primaryStage.setTitle("YouTube, SoundCloud, Vimeo, and System Audio Mixer"); // Set the window title
         primaryStage.setScene(scene); // Attach the scene to the stage
         primaryStage.show(); // Show the stage
     }
