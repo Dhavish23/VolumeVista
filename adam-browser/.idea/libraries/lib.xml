@@ -9,6 +9,9 @@
       <root url="jar://$PROJECT_DIR$/VolumeVista-Luke (1)/VolumeVista-Luke/Codes/lib/javafx.media.jar!/" />
       <root url="jar://$PROJECT_DIR$/VolumeVista-Luke (1)/VolumeVista-Luke/Codes/lib/javafx.web.jar!/" />
       <root url="jar://$PROJECT_DIR$/VolumeVista-Luke (1)/VolumeVista-Luke/Codes/lib/javafx.base.jar!/" />
+      <root url="jar://$USER_HOME$/jna-platform-5.17.0.jar!/" />
+      <root url="jar://$USER_HOME$/jna-jpms-5.17.0.jar!/" />
+      <root url="file://$USER_HOME$/openjfx-23.0.2_windows-x64_bin-sdk" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

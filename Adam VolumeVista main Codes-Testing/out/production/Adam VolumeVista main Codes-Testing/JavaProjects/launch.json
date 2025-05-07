@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch YouTubeVolumeMixer",
+            "request": "launch",
+            "mainClass": "JavaProjects.YouTubeVolumeMixer",
+            "vmArgs": "--module-path \"C:\\Users\\giris\\Desktop\\Java\\javafx-sdk-17.0.13\\lib\" --add-modules javafx.controls,javafx.fxml,javafx.web"
+        }
+    ]
+}
+// the type, name, request, main class has to match with the project creation or else "Error: JavaFX runtime components are missing, and are required to run this application"
+// Vmargs you need to have the right pathg where the lib is and apply it to the settings.json 
